@@ -952,45 +952,13 @@
           aniversarioInput.value = "-";
         }
 
-
-        // Check if all products have IDs
-        let allProductsHaveIds = true;
-        const productElements = document.querySelectorAll('.product-id');
-        console.log(productElements)
-
-        // Map product elements to products array to ensure we have all product IDs
-        const enhancedProducts = products.map((product, index) => {
-          const element = productElements[index];
-          const refProductValue = document.getElementById('refProduct')?.value || '';
-          
-          // Se o productId estiver vazio e tiver um refProduct, usa o refProduct
-          if ((!element || !element.value.trim()) && refProductValue) {
-            element.value = refProductValue;
-          }
-
-          if (!element || !element.value.trim()) {
-            allProductsHaveIds = false;
-          }
-
+        // Mapeamos diretamente os produtos - cada produto já tem seu próprio productId
+        const enhancedProducts = products.map(product => {
           return {
             ...product,
-            productId: element ? element.value.trim() : ''
+            productId: product.productId || ''
           };
         });
-
-        const filtered = enhancedProducts.filter(x => {
-          console.log(x.productId)
-          console.log(x.productId === "000000000")
-          return x.productId === "000000000"
-        });
-
-        console.log(!allProductsHaveIds)
-        console.log(filtered)
-
-        // if (!allProductsHaveIds || filtered.length) {
-        //     alert("Por favor, preencha o ID de todos os produtos.");
-        //     return;
-        // }
 
         // Get customer info
         const customerInfo = {
@@ -1494,6 +1462,9 @@
         discountAmount = originalPrice - finalPrice;
       }
 
+      // Obter o valor atual do refProduct
+      const currentRefProduct = document.getElementById('refProduct').value || '';
+
       // Criar objeto do produto
       const product = {
         id: Date.now(),
@@ -1501,7 +1472,8 @@
         finalPrice,
         discountAmount,
         discountPercentage: ((discountAmount / originalPrice) * 100).toFixed(1),
-        discountDetails
+        discountDetails,
+        productId: currentRefProduct // Armazenar o refProduct atual para este produto
       };
 
       // Adicionar ao array de produtos
@@ -1512,6 +1484,8 @@
       percentDiscountsInput.value = '';
       fixedDiscountsInput.value = '';
       originalPriceInput.value = '';
+      // Limpar o refProduct após adicionar o produto
+      document.getElementById('refProduct').value = '';
 
       // Destacar o botão de calcular
       calculateBtn.classList.add('pulse');
@@ -1603,10 +1577,7 @@
 
         const productId = document.createElement('input');
         productId.className = 'product-id';
-        // function editProductId() {
-        //     if (!productId.value) productId.value = '000000000'
-        // }
-        // editProductId()
+        productId.value = product.productId || ''; // Usar o productId armazenado no objeto do produto
 
         productInfo.appendChild(originalPrice);
         productInfo.appendChild(finalPrice);

@@ -1,0 +1,220 @@
+/* Mobile-first styles for Calculadora de Descontos */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 20px 0;
+  }
+
+  .container {
+    max-width: 100%;
+    flex-direction: column;
+    padding: 0;
+    gap: 20px;
+  }
+
+  .calculator-card {
+    width: 100%;
+    padding: 20px;
+    /* margin-bottom: 15px; */
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  input {
+    padding: 14px;
+    font-size: 16px;  /* Prevent auto-zoom on iOS */
+    margin-bottom: 5px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  button {
+    width: 100%;
+    min-height: 48px;
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+
+  .cashback-section {
+    padding: 15px;
+    margin-top: 20px;
+  }
+
+  .cashback {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .product-item {
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .product-info {
+    width: 100%;
+  }
+
+  .product-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .delete-btn {
+    width: auto;
+    min-width: 120px;
+  }
+
+  /* Results improvements */
+  .results {
+    padding: 15px;
+    margin-top: 15px;
+  }
+
+  .results p {
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+
+  .results .total {
+    font-size: 1.2rem;
+  }
+
+  /* Form field improvements */
+  input::placeholder {
+    opacity: 0.5;
+  }
+
+  #calculateBtn {
+    transform: scale(0.9);    
+  }
+
+  /* Better touch feedback */
+  button:active {
+    transform: translateY(1px);
+  }
+
+  .product-item:hover {
+    transform: none;
+  }
+
+  /* Improve form spacing */
+  /* .input-group + .input-group {
+    margin-top: 15px;
+  } */
+
+  /* Error message improvements */
+  .error-message {
+    font-size: 0.9rem;
+    padding: 5px 0;
+  }
+
+  /* Enhanced visual hierarchy */
+  .section-title {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+/* Additional improvements for very small screens */
+@media screen and (max-width: 360px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .calculator-card {
+    padding: 15px;
+  }
+
+  input, button {
+    padding: 12px;
+  }
+}
+
+/* High contrast improvements for accessibility */
+@media (prefers-contrast: high) {
+  :root {
+    --accent-color: #00ff9d;
+    --text-primary: #ffffff;
+    --label-color: #ffffff;
+  }
+}
+
+/* Mobile toggle button adjustments */
+@media screen and (max-width: 768px) {
+  .toggle-save-btn {
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    right: 15px;
+  }
+
+  .toggle-save-btn::before {
+    font-size: 20px;
+  }
+
+  /* Ensure the button doesn't interfere with content */
+  body {
+    padding-top: 60px;
+  }
+}
+
+/* Small screen adjustments */
+@media screen and (max-width: 360px) {
+  .toggle-save-btn {
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .toggle-save-btn::before {
+    font-size: 18px;
+  }
+}
+
+/* Performance optimizations */
+@media screen and (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth scrolling only on mobile */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Optimize animations for mobile */
+  button,
+  .product-item {
+    transition: transform 0.2s ease;
+  }
+
+  /* Disable hover effects on mobile */
+  button:hover {
+    transform: none;
+  }
+}

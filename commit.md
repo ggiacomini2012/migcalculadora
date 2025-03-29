@@ -1,0 +1,1 @@
+verifique as mudanças e arquivos não traqueados e arquivos deletados, nao restore os deletados, e me pergunte se eu quero commitar e pushar.

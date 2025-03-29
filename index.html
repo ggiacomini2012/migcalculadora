@@ -1677,42 +1677,60 @@
       productsSection.appendChild(editForm);
       productsSection.style.display = 'block'; // Make sure it's visible
 
-      // Add save and cancel buttons
-      const buttonContainer = document.createElement('div');
-      buttonContainer.style.display = 'flex';
-      buttonContainer.style.gap = '10px';
-      buttonContainer.style.marginTop = '15px';
+      // Setup auto-save functionality for all inputs
+      const allInputs = editForm.querySelectorAll('input');
+      allInputs.forEach(input => {
+        input.addEventListener('change', () => saveEditedRecord(recordId, editForm));
+        input.addEventListener('blur', () => saveEditedRecord(recordId, editForm));
+      });
 
-      const saveButton = document.createElement('button');
-      saveButton.textContent = 'Salvar Alterações';
-      saveButton.className = 'cashback';
-      saveButton.style.backgroundColor = 'var(--accent-color)';
-      saveButton.style.color = 'var(--bg-primary)';
-      saveButton.style.border = 'none';
-      saveButton.style.padding = '10px';
-      saveButton.style.borderRadius = 'var(--border-radius)';
-      saveButton.style.cursor = 'pointer';
+      // Add close button
+      const closeButtonContainer = document.createElement('div');
+      closeButtonContainer.style.display = 'flex';
+      closeButtonContainer.style.flexDirection = 'column';
+      closeButtonContainer.style.alignItems = 'center';
+      closeButtonContainer.style.marginTop = '15px';
 
-      const cancelButton = document.createElement('button');
-      cancelButton.textContent = 'Cancelar';
-      cancelButton.className = 'reset';
-      cancelButton.style.backgroundColor = 'transparent';
-      cancelButton.style.color = 'var(--accent-color)';
-      cancelButton.style.border = '1px solid var(--accent-color)';
-      cancelButton.style.padding = '10px';
-      cancelButton.style.borderRadius = 'var(--border-radius)';
-      cancelButton.style.cursor = 'pointer';
+      // Add auto-save status indicator
+      const saveStatus = document.createElement('div');
+      saveStatus.id = `save-status-${recordId}`;
+      saveStatus.textContent = 'Salvando automaticamente...';
+      saveStatus.style.fontSize = '14px';
+      saveStatus.style.color = 'var(--accent-color)';
+      saveStatus.style.marginBottom = '10px';
+      saveStatus.style.opacity = '0';
+      saveStatus.style.transition = 'opacity 0.3s';
+      
+      const closeButton = document.createElement('button');
+      closeButton.textContent = 'Fechar';
+      closeButton.id = `close-edit-btn-${recordId}`;
+      closeButton.className = 'reset';
+      closeButton.style.backgroundColor = 'transparent';
+      closeButton.style.color = 'var(--accent-color)';
+      closeButton.style.border = '1px solid var(--accent-color)';
+      closeButton.style.padding = '10px';
+      closeButton.style.borderRadius = 'var(--border-radius)';
+      closeButton.style.cursor = 'pointer';
+      closeButton.style.width = '50%';
 
-      buttonContainer.appendChild(saveButton);
-      buttonContainer.appendChild(cancelButton);
-      productsSection.appendChild(buttonContainer);
+      closeButtonContainer.appendChild(saveStatus);
+      closeButtonContainer.appendChild(closeButton);
+      productsSection.appendChild(closeButtonContainer);
 
-      // Add event listeners
-      saveButton.addEventListener('click', () => saveEditedRecord(recordId, editForm));
-      cancelButton.addEventListener('click', () => {
-        productsSection.innerHTML = originalContent;
-        if (originalContent.trim() === '') {
-          productsSection.style.display = 'none';
+      // Add event listener to close button
+      closeButton.addEventListener('click', () => {
+        // Close the edit form - no need to restore original content since changes are auto-saved
+        productsSection.style.display = 'none';
+      });
+
+      // Add event listener to delete button
+      deleteProductBtn.addEventListener('click', function () {
+        if (document.querySelectorAll('.edit-product').length > 1) {
+          productContainer.remove();
+          // Auto-save after removing a product
+          saveEditedRecord(recordId, document.querySelector('.edit-form'));
+        } else {
+          alert('Não é possível remover todos os produtos. Pelo menos um produto deve permanecer.');
         }
       });
     }
@@ -1859,6 +1877,10 @@
           input.style.border = '1px solid #333';
           input.style.borderRadius = 'var(--border-radius)';
           input.style.color = 'var(--text-primary)';
+          
+          // Add auto-save event listeners to each input
+          input.addEventListener('change', () => saveEditedRecord(recordId, document.querySelector('.edit-form')));
+          input.addEventListener('blur', () => saveEditedRecord(recordId, document.querySelector('.edit-form')));
 
           fieldContainer.appendChild(label);
           fieldContainer.appendChild(input);
@@ -1873,6 +1895,8 @@
         deleteProductBtn.addEventListener('click', function () {
           if (document.querySelectorAll('.edit-product').length > 1) {
             productContainer.remove();
+            // Auto-save after removing a product
+            saveEditedRecord(recordId, document.querySelector('.edit-form'));
           } else {
             alert('Não é possível remover todos os produtos. Pelo menos um produto deve permanecer.');
           }
@@ -1958,6 +1982,10 @@
           input.style.border = '1px solid #333';
           input.style.borderRadius = 'var(--border-radius)';
           input.style.color = 'var(--text-primary)';
+          
+          // Add auto-save event listeners to each input
+          input.addEventListener('change', () => saveEditedRecord(recordId, document.querySelector('.edit-form')));
+          input.addEventListener('blur', () => saveEditedRecord(recordId, document.querySelector('.edit-form')));
 
           fieldContainer.appendChild(label);
           fieldContainer.appendChild(input);
@@ -1972,7 +2000,14 @@
         // Add event listener to delete button
         deleteProductBtn.addEventListener('click', function () {
           productContainer.remove();
+          // Auto-save after removing a product
+          saveEditedRecord(recordId, document.querySelector('.edit-form'));
         });
+        
+        // Auto-save after adding a new product
+        setTimeout(() => {
+          saveEditedRecord(recordId, document.querySelector('.edit-form'));
+        }, 100);
       });
 
       productsSection.appendChild(addProductBtn);
@@ -2008,6 +2043,10 @@
       cashbackInput.style.border = '1px solid #333';
       cashbackInput.style.borderRadius = 'var(--border-radius)';
       cashbackInput.style.color = 'var(--text-primary)';
+      
+      // Add auto-save event listeners
+      cashbackInput.addEventListener('change', () => saveEditedRecord(recordId, document.querySelector('.edit-form')));
+      cashbackInput.addEventListener('blur', () => saveEditedRecord(recordId, document.querySelector('.edit-form')));
 
       cashbackContainer.appendChild(cashbackLabel);
       cashbackContainer.appendChild(cashbackInput);
@@ -2036,6 +2075,13 @@
         aniversario: document.getElementById('edit-aniversario').value
       };
 
+      // Show saving status
+      const statusElem = document.getElementById(`save-status-${recordId}`);
+      if (statusElem) {
+        statusElem.textContent = 'Salvando...';
+        statusElem.style.opacity = '1';
+      }
+
       // Get all product containers
       const productContainers = editForm.querySelectorAll('.edit-product');
       const editedProducts = [];
@@ -2051,10 +2097,8 @@
         const origPrice = parseFloat(originalPrice.value);
         const finPrice = parseFloat(finalPrice.value);
 
-        if (isNaN(origPrice) || isNaN(finPrice)) {
-          alert(`Preços inválidos no produto ${index + 1}. Use apenas números.`);
-          return;
-        }
+        // Skip invalid prices without alert to prevent interrupting user experience
+        if (isNaN(origPrice) || isNaN(finPrice)) return;
 
         // Calculate discount
         const discount = origPrice - finPrice;
@@ -2071,10 +2115,7 @@
       });
 
       // Make sure we have at least one product
-      if (editedProducts.length === 0) {
-        alert('É necessário ter pelo menos um produto.');
-        return;
-      }
+      if (editedProducts.length === 0) return;
 
       // Get cashback
       const cashbackValue = parseFloat(document.getElementById('edit-cashback').value);
@@ -2100,11 +2141,21 @@
       savedRecords[recordIndex] = editedRecord;
       localStorage.setItem('discountCalculatorRecords', JSON.stringify(savedRecords));
 
-      // Update display
-      updateSavedRecordsList();
+      // Update status to "Salvo"
+      if (statusElem) {
+        setTimeout(() => {
+          statusElem.textContent = 'Salvo';
+          setTimeout(() => {
+            statusElem.style.opacity = '0';
+          }, 1000);
+        }, 500);
+      }
 
-      // Show success message
-      // alert('Registro atualizado com sucesso!');
+      // Update display - only if not actively editing
+      const isEditing = document.activeElement && document.activeElement.tagName === 'INPUT';
+      if (!isEditing) {
+        updateSavedRecordsList();
+      }
     }
 
     // Add edit button to record items

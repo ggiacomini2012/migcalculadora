@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Botão de Importação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .demo-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .custom-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Demonstração do Botão de Importação de Arquivos</h1>
+    
+    <p>Este é um exemplo de como usar o módulo <code>fileImportButton.js</code> para criar um botão de importação de arquivos de texto.</p>
+    
+    <div class="demo-container">
+        <h2>Exemplo básico</h2>
+        <div id="basic-example"></div>
+    </div>
+    
+    <div class="demo-container">
+        <h2>Exemplo com personalização</h2>
+        <div id="custom-example"></div>
+        <div id="output" style="margin-top: 20px;"></div>
+    </div>
+    
+    <h2>Como usar</h2>
+    <pre>
+// Exemplo básico
+createFileImportButton('id-do-container');
+
+// Exemplo com opções personalizadas
+createFileImportButton('id-do-container', {
+    buttonText: 'Selecionar arquivo TXT',
+    buttonClass: 'custom-button',
+    accept: '.txt',
+    onFileLoaded: function(content) {
+        // Fazer algo com o conteúdo do arquivo
+        document.getElementById('output').textContent = content;
+    }
+});
+    </pre>
+    
+    <!-- Incluir o script do módulo -->
+    <script src="fileImportButton.js"></script>
+    
+    <script>
+        // Inicializar o botão básico quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Exemplo básico
+            createFileImportButton('basic-example');
+            
+            // Exemplo personalizado
+            createFileImportButton('custom-example', {
+                buttonText: 'Selecionar arquivo TXT',
+                buttonClass: 'custom-button',
+                accept: '.txt',
+                onFileLoaded: function(content) {
+                    // Exibir o conteúdo na página (além do console)
+                    const output = document.getElementById('output');
+                    output.innerHTML = '<strong>Conteúdo do arquivo:</strong><br><pre>' + 
+                        content.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

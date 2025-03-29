@@ -31,7 +31,7 @@ Uma calculadora de descontos para gerenciamento de vendas e promoções.
 Clone o repositório e abra o arquivo `index.html` em qualquer navegador moderno.
 
 ```bash
-git clone https://github.com/seu-usuario/migcalculadora.git
+git clone https://github.com/ggiacomini2012/migcalculadora.git
 cd migcalculadora
 ```
 

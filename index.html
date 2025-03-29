@@ -1114,6 +1114,7 @@
           // View details button
           const viewDetailsBtn = document.createElement('button');
           viewDetailsBtn.className = 'delete-btn';
+          viewDetailsBtn.id = `view-btn-${record.id}`;
           viewDetailsBtn.innerHTML = '👁️';
           viewDetailsBtn.title = 'Ver detalhes';
           viewDetailsBtn.style.color = 'var(--accent-color)';
@@ -1124,6 +1125,7 @@
           // Delete button
           const deleteBtn = document.createElement('button');
           deleteBtn.className = 'delete-btn';
+          deleteBtn.id = `delete-btn-${record.id}`;
           deleteBtn.innerHTML = '🗑️';
           deleteBtn.title = 'Excluir registro';
           deleteBtn.style.color = 'var(--delete-color)';
@@ -1599,6 +1601,7 @@
         // Adicionar botão de exclusão
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
+        deleteBtn.id = `delete-product-btn-${product.id}`;
         deleteBtn.innerHTML = '✕';
         deleteBtn.title = 'Remover este produto';
         deleteBtn.onclick = function () {
@@ -1815,6 +1818,7 @@
         const deleteProductBtn = document.createElement('button');
         deleteProductBtn.innerHTML = '✕';
         deleteProductBtn.className = 'delete-btn';
+        deleteProductBtn.id = `delete-product-edit-btn-${index}`;
         deleteProductBtn.dataset.productIndex = index;
         deleteProductBtn.style.backgroundColor = 'transparent';
         deleteProductBtn.style.border = 'none';
@@ -1914,6 +1918,7 @@
         const deleteProductBtn = document.createElement('button');
         deleteProductBtn.innerHTML = '✕';
         deleteProductBtn.className = 'delete-btn';
+        deleteProductBtn.id = `delete-product-edit-btn-${newIndex}`;
         deleteProductBtn.dataset.productIndex = newIndex;
         deleteProductBtn.style.backgroundColor = 'transparent';
         deleteProductBtn.style.border = 'none';
@@ -2110,6 +2115,7 @@
     function createEditButton(recordId) {
       const editBtn = document.createElement('button');
       editBtn.className = 'delete-btn';
+      editBtn.id = `edit-btn-${recordId}`;
       editBtn.innerHTML = '✏️';
       editBtn.title = 'Editar registro';
       editBtn.style.color = 'var(--accent-color)';
@@ -2173,6 +2179,7 @@
         // View details button
         const viewDetailsBtn = document.createElement('button');
         viewDetailsBtn.className = 'delete-btn';
+        viewDetailsBtn.id = `view-btn-${record.id}`;
         viewDetailsBtn.innerHTML = '👁️';
         viewDetailsBtn.title = 'Ver detalhes';
         viewDetailsBtn.style.color = 'var(--accent-color)';
@@ -2183,6 +2190,7 @@
         // Delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
+        deleteBtn.id = `delete-btn-${record.id}`;
         deleteBtn.innerHTML = '🗑️';
         deleteBtn.title = 'Excluir registro';
         deleteBtn.style.color = 'var(--delete-color)';

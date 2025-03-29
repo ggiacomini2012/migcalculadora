@@ -1,1 +1,1 @@
-atualmente o projeto le o catalog para adicionar no searchinput correto?
+o modulo fileimportbutton conseguiria ter a funcionalidade do convercatalog para que fizesse o consolelog da tabela ja convertida em catalogo?

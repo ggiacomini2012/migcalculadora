@@ -1712,9 +1712,9 @@
       saveButton.addEventListener('click', () => saveEditedRecord(recordId, editForm));
       cancelButton.addEventListener('click', () => {
         productsSection.innerHTML = originalContent;
-        if (originalContent.trim() === '') {
-          productsSection.style.display = 'none';
-        }
+        // if (originalContent.trim() === '') {
+        //   productsSection.style.display = 'none';
+        // }
       });
     }
 

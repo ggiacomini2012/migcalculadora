@@ -32,11 +32,47 @@
             background-color: #45a049;
         }
         
+        .catalog-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .catalog-button:hover {
+            background-color: #0b7dda;
+        }
+        
         pre {
             background-color: #f5f5f5;
             padding: 15px;
             border-radius: 4px;
             overflow-x: auto;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -56,6 +92,16 @@
         <div id="output" style="margin-top: 20px;"></div>
     </div>
     
+    <div class="demo-container">
+        <h2>Importação de Catálogo</h2>
+        <p>Este exemplo usa a funcionalidade de conversão de catálogo integrada:</p>
+        <div id="catalog-example"></div>
+        <div id="catalog-output" style="margin-top: 20px;">
+            <div id="catalog-info"></div>
+            <div id="catalog-preview"></div>
+        </div>
+    </div>
+    
     <h2>Como usar</h2>
     <pre>
 // Exemplo básico
@@ -69,6 +115,20 @@ createFileImportButton('id-do-container', {
     onFileLoaded: function(content) {
         // Fazer algo com o conteúdo do arquivo
         document.getElementById('output').textContent = content;
+    }
+});
+
+// Exemplo com importação de catálogo
+createCatalogImportButton('id-do-container', {
+    buttonText: 'Importar Catálogo',
+    buttonClass: 'catalog-button',
+    onFileLoaded: function(products, catalogCode) {
+        // Fazer algo com o catálogo processado
+        console.log('Produtos importados:', products.length);
+        
+        // Exibir prévia dos primeiros 5 produtos
+        const previewTable = criarTabelaPrevia(products.slice(0, 5));
+        document.getElementById('catalog-preview').innerHTML = previewTable;
     }
 });
     </pre>
@@ -94,7 +154,62 @@ createFileImportButton('id-do-container', {
                         content.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>';
                 }
             });
+            
+            // Exemplo de importação de catálogo
+            createCatalogImportButton('catalog-example', {
+                buttonText: 'Importar arquivo de catálogo',
+                buttonClass: 'catalog-button',
+                onFileLoaded: function(products, catalogCode) {
+                    // Exibir informações sobre o catálogo
+                    const infoEl = document.getElementById('catalog-info');
+                    infoEl.innerHTML = `
+                        <strong>Catálogo processado com sucesso!</strong><br>
+                        Total de produtos: ${products.length}<br>
+                        O objeto <code>catalog</code> está disponível globalmente.<br>
+                        Você pode acessá-lo no console usando <code>window.catalog</code>.<br>
+                        <strong>Prévia dos primeiros 5 produtos:</strong>
+                    `;
+                    
+                    // Criar uma tabela com os primeiros 5 produtos
+                    const previewEl = document.getElementById('catalog-preview');
+                    previewEl.innerHTML = criarTabelaPrevia(products.slice(0, 5));
+                }
+            });
         });
+        
+        // Função para criar uma tabela HTML com a prévia dos produtos
+        function criarTabelaPrevia(produtos) {
+            if (!produtos || produtos.length === 0) {
+                return '<p>Nenhum produto encontrado.</p>';
+            }
+            
+            let html = '<table>';
+            
+            // Cabeçalho da tabela
+            html += '<tr>';
+            html += '<th>Ref.</th>';
+            html += '<th>Descrição</th>';
+            html += '<th>Tamanho</th>';
+            html += '<th>Cores</th>';
+            html += '<th>Preço</th>';
+            html += '<th>Desconto</th>';
+            html += '</tr>';
+            
+            // Linhas de dados
+            produtos.forEach(produto => {
+                html += '<tr>';
+                html += `<td>${produto.ref}</td>`;
+                html += `<td>${produto.description}</td>`;
+                html += `<td>${produto.size}</td>`;
+                html += `<td>${produto.colors}</td>`;
+                html += `<td>R$ ${produto.price.toFixed(2)}</td>`;
+                html += `<td>R$ ${produto.discount.toFixed(2)}</td>`;
+                html += '</tr>';
+            });
+            
+            html += '</table>';
+            return html;
+        }
     </script>
 </body>
 </html> 

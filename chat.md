@@ -1,0 +1,1 @@
+atualmente o projeto le o catalog para adicionar no searchinput correto?
